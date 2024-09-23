@@ -23,3 +23,17 @@ Filtering Stratigies== /\_\\ find middle zone with pros and trade offs of each
 #Questions? #\>\> how does file types effect head or similar commands?
 
 -   start to visualize values associatied with each "triangle point"
+
+### 09-19-24 Diversity
+
+Notes:
+
+-   matching data sets using %in%
+
+-   colnames([vcf\@gt](mailto:vcf@gt){.email}[,-1]) \> minus first column alter amount of info
+
+1.  Pulled vcf from 01 script
+
+Questions:
+
+-   what is the difference between View and view (caps why?)
