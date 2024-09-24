@@ -51,6 +51,38 @@ manhattan(vcf.div.MHplot,
           ylab="Fst among regions",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
 
+###09-24-24  Finishing up Diversity 
+write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/outputs/Genetic_Diff_byRegion.csv",
+          quote=F,
+          row.names=F)
+
+names(vcf.div.MHplot)
+
+#allows plotting to work on R on VACC
+options(bitmapType = "cairo")
+#want to visulize a bit more like a density plot 
+#use tidy verse to paste each colunm on top of eachother into one long column 
+vcf.div.MHplot %>%
+  as_tibble() %>%
+  pivot_longer(c(4:9)) %>%
+  ggplot(aes(x=value, fill=name)) + #why switch from %>% to +? i get we are working on the graph now but still why?
+  geom_histogram(position = "identity", alpha=0.5, bins=50) +
+  labs(title="Genome-Wide Expected Heterozygosity (Hs)",fill="Regions",
+       x="Gene Diversity within Regions", y="Counts of SNPs")
+
+#save the last plot you made
+ggsave("Histograme_GenomDIversity_byRegion.pdf",
+       path="~/projects/eco_genomics/population_genomics/figures/")
+
+
+#what does playing with the filter mean in words (what are results)
+vcf.div.MHplot %>%
+  as_tibble() %>%
+  pivot_longer(c(4:9)) %>%
+  group_by(name) %>%
+  filter(value!=0 & value<0.25) %>% #take out the zero values changes sample size and tidy it up a bit 
+  summarise(avg_Hs=mean(value), StdDev_Hs=sd(value), N_Hs=n())
+
 
 
 
