@@ -35,6 +35,32 @@ geno <- vcf2geno(input.file="/gpfs1/home/s/s/ssularz/vcf_final.filtered.thinned.
 CentPCA <- LEA::pca("outputs/vcf_final.filtered.thinned.geno", scale=TRUE)
 
 #lots of things just happened in not sure about some of them but we will go back into it next class 
+#code filled in just theory
+
+
+#CentPCA <- load.pcaProject("vcf_final.filtered.thinned.pcaProject")
+#use this to load pca from working script 
+
+show(CentPCA) #
+
+plot(CentPCA) #axis that pca put through cloud of points is "igan value" the first one 
+#the most info content will be pc 1 then pc 2 etc levels off fast so last 600+ not very usefull 
+
+ggplot(as.data.frame(CentPCA$projections),
+       aes(x=V1, y=V2, color=meta2$region, shape=meta2$continent)) +
+       geom_point(alpha=1) +
+       labs(title = "Centaurea genetic PCA",x="PC1",y="PC2",color="Region",shape="continent")
+#close () after aes then you can use + to layer on after 
+##make some edits like this...
+#ggplot(as.data.frame(CentPCA$projections),
+      # aes(x=V1, y=V2, color=meta2$region, shape=meta2$continent)) +
+ # geom_point(alpha=0.5) + #spread i think
+ # labs(title = "Centaurea genetic PCA",x="PC1",y="PC2",color="Region",shape="continent")+
+#  xlim(-10,10) +
+ # ylim(-10,10)
+
+ggsave("figures/CentPCA_PC1vPC2.pdf", width = 6, height = 6, units = "in")
+
 
 plot(CentPCA$projections,
      col=as.factor(meta2$region))

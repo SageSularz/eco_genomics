@@ -85,3 +85,55 @@ Questions:
 -   line 63 \> still kinda confused on this flow and the %\>% funct.
 -   pivot_longer make big column, how to make big row? does it even matter?
 -   how to determine min distance
+
+### 09-26-24 PCA/Admixture
+
+Notes
+
+-   PCA plot
+
+    -   doesnt make assumption about where samples taken
+
+    -   nice to look at genetic pop struc in a different way from fst without having to define groups
+
+    -   
+
+-   how to discribe pc vals
+
+    -   each snp have a corrilation with each axis
+
+    -   if you sum all the eigan values you get vectors\*
+
+-   Admixture analysis
+
+    -   also good way to look at pop struct with groups
+
+    -   has a genetic model behind it (unlike pca which is just maths) -\> HWE
+
+    -   HWE is good to prediction het content from 1=2pq
+
+Groups are
+
+1.  choose value of k (k=# groups) (1-10)
+2.  assign indvs to one of k groups (up to you )
+3.  calc allele freq in each group (p, q)
+4.  calc 2pq from that & compare to obv freq of het
+5.  swing back to step two and try to regroup to try and increase similarity to obv vals
+
+-   Q= fractional ansestory (whaa)
+
+    -   make a matrix outlineing how much each indv fits into each group, ex 0.5 equal between two groups
+
+-   cross-validation in model training
+
+    -   connected to Q and k
+
+-   Screeplot: shows the mag of the eigenvalues in decending order, starting with the first pc value. we only want the first few pc values they contain most the info
+
+Questions
+
+-   how can i view the PCA plot in multiple dementions i need to see it all together to make sense of it i think
+
+-   still unclean on how to pick the right K
+
+how not to over interpret structure plots \<- try this paper to fill in some blanks
