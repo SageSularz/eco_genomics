@@ -70,7 +70,7 @@ Step 6.b: Visualize genetic differentiation (Gst) across the genome and among ou
 
 Step 7: Tweak plots -- save interesting ones to our outputs/ directories in our repo!
 
-### 09-24-24 Diversity 
+### 09-24-24 Diversity and starting PCA
 
 Notes:
 
@@ -84,4 +84,4 @@ Questions:
 
 -   line 63 \> still kinda confused on this flow and the %\>% funct.
 -   pivot_longer make big column, how to make big row? does it even matter?
--   
+-   how to determine min distance
