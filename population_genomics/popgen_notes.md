@@ -5,6 +5,7 @@
 ### Easy Refs:
 
 1.  Issues with plots on Rstudio on VACC -\> options(bitmapType = "cairo")
+2.  Goal is always to find the least complicated model you can
 
 ### 09-10-2024 - Intro to Centaurea GBS data and working with VCF files
 
@@ -137,3 +138,59 @@ Questions
 -   still unclean on how to pick the right K
 
 how not to over interpret structure plots \<- try this paper to fill in some blanks
+
+### 10-01-24  Admixture/selection
+
+Agenda
+
+1.  admixture analysis
+    -   calculation
+
+    -   plotting
+2.  micro lecture on selection outliers
+3.  calculate selection outliers
+4.  homework
+
+NOTES:
+
+-   What to plug in for K range
+
+    -   every extra K you run will take longer and you will see the fit of the data will improve as K increases until a certain point then level out (See admix plot)
+
+    -   get sense of pca and eigan vals to use as rough guide
+
+    -   "look for elbow on plot" and select that as range
+
+-   Admix plot
+
+    -   scale is less important compared to proportion between points
+
+    -   compared to last weeks plot that looked like 'U' this plot would eventually move back up with error and create 'U'
+
+-   look at the admix and PCA plots...
+
+    -   is there overlap in conclusions I can pull?
+
+    -   when when I use one vs the other
+
+    -   do you understand the primary goals in each
+
+    -   what features am I specifically look at in each
+
+-   
+
+QUESTIONS:
+
+-   Monte carlo analysis was mention I would like to understand the math behind it
+
+-   used cbind to merge on the y axis how can i merge on the x axis
+
+SELECTION NOTES
+
+-   NCBI NLM genome data viewer from eod find link on BS
+
+    -   view annotated genome data
+
+    -   what gene is that outlier on? Whats happening there? Is this signiicant?
+
+-   Kegg or GO are good enrichment pathways
