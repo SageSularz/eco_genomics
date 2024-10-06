@@ -213,8 +213,24 @@ The basic approach: (c&p from BS)
 
 4.  Interpret your findings in light of the hypothesis that hybridization/admixture is increasing diversity in the introduced range of Centaurea .
 
-Notes:
+Notes to use for writeup:
 
 part 1: filtering
 
--   
+-   Loaded Required Libraries and Set Up Environment: Loaded necessary packages and set the working directory to access project files.
+
+-   Loaded Genetic and Reference Data: Imported the VCF file containing genetic information, along with the reference genome and annotated genome files.
+
+-   Associated and Visualized Chromosomal Data: Created a combined Chromosome object from the VCF, reference genome, and annotation, then visualized the chromosome for quality control.
+
+-   Analyzed Depth (DP) Information: Extracted depth information from the VCF, replacing zeros with `NA` to handle missing data, and visualized the distribution of depth using heatmaps.
+
+-   Prepared Metadata: Loaded metadata containing individual and population information, ensuring correct formatting for further analysis.
+
+-   Applied Filters to Genetic Data: Applied hard depth filtering, allele balance filtering, and max depth filtering to retain relevant genetic data while excluding unreliable sites.
+
+-   Filtered for Individual Missingness: Applied a 75% missingness threshold to individuals, keeping those with sufficient data coverage.
+
+-   Filtered SNPs Based on Missingness and Minor Allele Count: Filtered SNPs for 50% completeness and removed low-frequency alleles (min MAC=2).
+
+-   Saved Final Filtered VCF: Exported the final filtered VCF file for further downstream analysis.
