@@ -194,3 +194,27 @@ SELECTION NOTES
     -   what gene is that outlier on? Whats happening there? Is this signiicant?
 
 -   Kegg or GO are good enrichment pathways
+
+### Homework 1: Effect of Indv level missingness
+
+The basic approach: (c&p from BS)
+
+1.  Go back to the filtering stage on our original VCF file. Keeping all other filters constant, vary the level of individual missingness to evaluate its effects. Recall we originally allowed individuals with 75% missing data. Choose 2 other thresholds to evaluate, and generate 2 new filtered vcf files (again, keeping all other filters the same as before).
+
+2.  For each new VCF file representing different levels of individual missingness, estimate the following:
+
+    1.  The number of individuals and SNP loci after filtering Genome-wide diversity for each region (Hs) and its standard deviation (SD)
+
+    2.  The number of loci with Hs=0 vs. Hs\>0 for each region
+
+    3.  Genetic structure using either PCA or Admixture analysis
+
+3.  Compare the effect that the 3 different levels of individual missingness (the original 75% threshold, and the 2 new thresholds you choose) have on the above measures of diversity and structure in this Centaurea dataset.
+
+4.  Interpret your findings in light of the hypothesis that hybridization/admixture is increasing diversity in the introduced range of Centaurea .
+
+Notes:
+
+part 1: filtering
+
+-   
