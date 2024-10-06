@@ -139,7 +139,7 @@ Questions
 
 how not to over interpret structure plots \<- try this paper to fill in some blanks
 
-### 10-01-24  Admixture/selection
+### 10-01-24 Admixture/selection
 
 Agenda
 
