@@ -62,7 +62,7 @@ vcf.filt <- max_depth(vcf.filt,
 vcf.filt.indMiss <- missing_by_sample(vcf.filt, 
                                       popmap = meta2,
                                       cutoff=0.75) 
-meta75 <- meta[meta$id %in% colnames(vcf.filt.indMiss@gt),]
+meta75 <- meta2[meta2$id %in% colnames(vcf.filt.indMiss@gt),]
 
 #vcf.filt.indMiss <- missing_by_sample(vcf.filt, 
 #                                      popmap = meta2,
@@ -96,6 +96,21 @@ write.vcf(vcf.filt.indSNPMiss,
           "~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
 
 ######## PART TWO === Diversity #######
+X11.options(type="cairo")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

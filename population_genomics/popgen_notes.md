@@ -1,4 +1,4 @@
-# Coding and data notes for the population genomics module
+# Population Genomics Module
 
 #Author: Sage Sularz
 
@@ -234,3 +234,5 @@ part 1: filtering
 -   Filtered SNPs Based on Missingness and Minor Allele Count: Filtered SNPs for 50% completeness and removed low-frequency alleles (min MAC=2).
 
 -   Saved Final Filtered VCF: Exported the final filtered VCF file for further downstream analysis.
+
+-   
