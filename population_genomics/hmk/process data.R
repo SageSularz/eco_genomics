@@ -2,6 +2,7 @@
 ##
 
 # Diversity
+
 library(vcfR)
 library(tidyverse)
 library(qqman)
@@ -115,8 +116,9 @@ for (i in 1:3) {
   # Check if the uncompressed file exists
   if (!file.exists(paste0(full_path, "/vcf_final.filtered.thinned_", filter_val, ".vcf"))) {
     stop(paste("Error: VCF file not found after uncompression for filter_val =", filter_val))
-  
-  print(paste("File successfully uncompressed for filter_val =", filter_val))
+  } else {
+    print(paste("File successfully uncompressed for filter_val =", filter_val))
+  }
   
   # Convert the uncompressed VCF to geno format
   geno <- vcf2geno(input.file = paste0(full_path, "/vcf_final.filtered.thinned_", filter_val, ".vcf"),
@@ -139,6 +141,7 @@ for (i in 1:3) {
          width = 6, height = 6, units = "in")
   print("PCA Loop")
 }
+
 
 
 
