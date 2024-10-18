@@ -47,3 +47,25 @@ line 60 DESeq
 -   mean-dispersion relationship
 
 -   final dispersion estimates fitting model and testing
+
+### 10-15-24
+
+log2foldchange- measure of difference in gene expression
+
+-   does everything in doublings
+
+-   make sure you check the direction!!
+
+    -   confirm by plotting
+
+<!-- -->
+
+-   everything is a comparason between two catagories
+
+looking at the result names and compared developmental temps
+
+### 10-17-24 Contrasting 
+
+notes:
+
+Qs:
