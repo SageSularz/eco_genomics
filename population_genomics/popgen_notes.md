@@ -236,3 +236,5 @@ part 1: filtering
 -   Saved Final Filtered VCF: Exported the final filtered VCF file for further downstream analysis.
 
 -   
+
+Part 2 Diversity

@@ -75,7 +75,7 @@ ggsave("Histograme_GenomDIversity_byRegion.pdf",
        path="~/projects/eco_genomics/population_genomics/figures/")
 
 
-#what does playing with the filter mean in words (what are results)
+#what does playing with the filter mean in words (what are results) #######
 vcf.div.MHplot %>%
   as_tibble() %>%
   pivot_longer(c(4:9)) %>%

@@ -9,6 +9,7 @@ library(vcfR)
 library(SNPfiltR)
 library(tidyverse)
 library(qqman)
+library(LEA) 
 
 #set WD and call files 
 setwd("/gpfs1/cl/pbio3990/PopulationGenomics/")
@@ -98,15 +99,94 @@ write.vcf(vcf.filt.indSNPMiss,
 ######## PART TWO === Diversity #######
 X11.options(type="cairo")
 
+vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
+
+meta2 <- meta[meta$id %in% colnames(vcf@gt[,-1]),] #%in% "also found in"
+dim(meta2)
+
+# calculate diversity stats using the genetic_diff fxn in vcfR
+#function calculates both Gst (a measure of genetic differentiation) 
+# and Hs (expected heterozygosity or genetic diversity within populations) for each region
+vcf.div <- genetic_diff(vcf,
+                        pops=as.factor(meta2$region),
+                        method = "nei")
+#sd(vcf.div$Hs)
+str(vcf.div)
+
+chr.main <- unique(vcf.div$CHROM)[1:8]
+
+chrnum <- as.data.frame(cbind(chr.main, seq(1, 8, 1)))
+
+vcf.div.MHplot <- left_join(chrnum, vcf.div, join_by(chr.main==CHROM))
+
+vcf.div.MHplot <- vcf.div.MHplot %>%
+  filter(Gst>0) %>%
+  mutate(SNP=paste0(chr.main,"_",POS))
+
+str(vcf.div.MHplot)
+
+vcf.div.MHplot$V2 = as.numeric(vcf.div.MHplot$V2)
+
+vcf.div.MHplot$POS = as.numeric(vcf.div.MHplot$POS)
+
+manhattan(vcf.div.MHplot,
+          chr="V2" ,
+          bp="POS",
+          p="Gst",
+          col=c("blue4","orange3") ,
+          logp=F ,
+          ylab="Fst among regions",
+          suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
+
+write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/outputs/Genetic_Diff_byRegion.csv",
+          quote=F,
+          row.names=F)
+
+#Divsersity within groups
+
+names(vcf.div.MHplot)
+
+vcf.div.MHplot %>%
+  as_tibble() %>%
+  pivot_longer(c(4:9)) %>%
+  ggplot(aes(x=value, fill=name)) + #why switch from %>% to +? i get we are working on the graph now but still why?
+  geom_histogram(position = "identity", alpha=0.5, bins=50) +
+  labs(title="Genome-Wide Expected Heterozygosity (Hs)",fill="Regions",
+       x="Gene Diversity within Regions", y="Counts of SNPs")
+
+ggsave("Histograme_GenomDIversity_byRegion.pdf",
+       path="~/projects/eco_genomics/population_genomics/figures/")
+
+vcf.div.MHplot %>%
+  as_tibble() %>%
+  pivot_longer(c(4:9)) %>%
+  ggplot(aes(x=value, fill=name)) + #why switch from %>% to +? i get we are working on the graph now but still why?
+  geom_histogram(position = "identity", alpha=0.5, bins=50) +
+  labs(title="Genome-Wide Expected Heterozygosity (Hs)",fill="Regions",
+       x="Gene Diversity within Regions", y="Counts of SNPs")
+
+ggsave("Histograme_GenomDIversity_byRegion.pdf",
+       path="~/projects/eco_genomics/population_genomics/figures/")
 
 
 
+######Part Three- PCA
+setwd("~/projects/eco_genomics/population_genomics/")
+#path picks up where WD left off 
+vcf <- read.vcfR("outputs/vcf_final.filtered.vcf.gz")
 
+vcf.thin <- distance_thin(vcf, min.distance = 500)
 
+write.vcf(vcf.thin, "outputs/vcf_final.filtered.thinned.vcf.gz")
 
+#hide the uncompressed VCF file too big for github outside our repo 
 
+system("gunzip -c ~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.thinned.vcf.gz > ~/vcf_final.filtered.thinned.vcf") # opens -leaves alone
 
+geno <- vcf2geno(input.file="/gpfs1/home/s/s/ssularz/vcf_final.filtered.thinned.vcf",
+                 output.file="outputs/vcf_final.filtered.thinned.geno")
 
+CentPCA <- LEA::pca("outputs/vcf_final.filtered.thinned.geno", scale=TRUE)
 
 
 
