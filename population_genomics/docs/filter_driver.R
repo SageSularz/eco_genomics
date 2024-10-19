@@ -1,6 +1,10 @@
 
 # Ecological Genomics - Homework 1
 # Effect of Individual-Level Missingness - Sage Sularz
+
+
+################# Filter Driver ##########################
+
 library(vcfR)
 library(SNPfiltR)
 
@@ -54,5 +58,14 @@ for (i in 1:3) {
             file=paste0("~/projects/eco_genomics/population_genomics/hmk/vcf_final.filtered_",filter_val,".vcf.gz"))
 }
 
+
+results <- dim(vcf.filt.indMiss) # Provides number of individuals (rows)
+
+write.csv(vcf.div.MHplot, 
+          file = paste0("~/projects/eco_genomics/population_genomics/hmk/Genetic_Diff_byRegion_",filter_val,".csv"),
+          quote=F,
+          row.names=F)
+
+results
 
 
