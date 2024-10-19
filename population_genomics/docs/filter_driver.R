@@ -56,16 +56,28 @@ for (i in 1:3) {
   
   write.vcf(vcf.filt.indSNPMiss, 
             file=paste0("~/projects/eco_genomics/population_genomics/hmk/vcf_final.filtered_",filter_val,".vcf.gz"))
+  
+  num_individuals <- dim(vcf.filt.indMiss)  
+  print(num_individuals)
+  
+  num_snp_loci <- dim(vcf.filt.indSNPMiss)  
+  print(num_individuals)
 }
 
 
-results <- dim(vcf.filt.indMiss) # Provides number of individuals (rows)
 
-write.csv(vcf.div.MHplot, 
-          file = paste0("~/projects/eco_genomics/population_genomics/hmk/Genetic_Diff_byRegion_",filter_val,".csv"),
-          quote=F,
-          row.names=F)
+
+
+save(num_individuals, num_snp_loci, file = paste0("~/projects/eco_genomics/population_genomics/hmk/filtered_data_",filter_val,".csv"))
+
+
+results <- rbind(results, data.frame(filter_val = filter_val, 
+                                     num_individuals = nrow(vcf.filt.indMiss@gt), 
+                                     num_snp_loci = ncol(vcf.filt.indSNPMiss@gt)))
+
+write.csv(results, 
+          file = paste0("~/projects/eco_genomics/population_genomics/hmk/FilteringData_",filter_val,".csv"))
 
 results
-
+print(filtered_data_0.3.RData)
 
