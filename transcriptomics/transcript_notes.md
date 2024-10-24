@@ -64,7 +64,7 @@ log2foldchange- measure of difference in gene expression
 
 looking at the result names and compared developmental temps
 
-### 10-17-24 Contrasting 
+### 10-17-24 Contrasting
 
 notes:
 
