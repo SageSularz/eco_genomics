@@ -61,7 +61,7 @@ for (i in 1:3) {
   print(num_individuals)
   
   num_snp_loci <- dim(vcf.filt.indSNPMiss)  
-  print(num_individuals)
+  print(num_snp_loci)
 }
 
 

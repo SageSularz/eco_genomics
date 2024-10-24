@@ -1,6 +1,11 @@
+###
+### 
 
-# load library
+# check out of the library 
 library(eulerr)
+library(dplyr)
+library(tidyr)
+library(gridExtra)
 
 # set up groups within DESeq object
 dds$group <- factor(paste0(dds$DevTemp, dds$FinalTemp))
@@ -101,8 +106,7 @@ View(res_df28)
 rownames(res_df28) <- res_df28$Row.names
 res_df28 <- res_df28[,-1]
 
-library(dplyr)
-library(tidyr)
+
 # make col collumn that will col based on values in data fram 
 
 # Define color mapping logic with the mutate fuction 
@@ -128,38 +132,43 @@ label_data <- merge(color_counts, label_positions, by = "fill")
 
 # PLOT
 ##Add ins
-ggplot(res_df28, aes(x=log2FoldChange.18, y=log2FoldChange.22, color=fill)) +
+plot28 <- ggplot(res_df28, aes(x=log2FoldChange.18, y=log2FoldChange.22, color=fill)) +
   geom_point(alpha=0.8) +
   scale_color_identity() +
-  ##geom_text(data = label_data, aes(x=x_pos, y=y_pos, label=count, color=fill),
-  ##          size=5) +
+  geom_text(data = label_data, aes(x=x_pos, y=y_pos, label=count, color=fill),   ##
+            size=5) +    
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +  ##
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey") +
+  xlim(-10,10) + ylim(-10,10) +
   labs(x="Log2FoldChange 28 vs. BASE at 18",
        y="log2FoldChange 28 vs. BASE at 22",
        title = "How does response to 28 C vary by DevTemp?")+
   theme_minimal()
 
-#################
-#################
+plot28
+##################################
+#
+# 10-24-24
+#
+##################################
+
+### Repeat for A33 ###
 
 # contrast D18_A33vsBASE
 res_D18_BASEvsA33 <- as.data.frame(results(dds, contrast=c("group", "D18BASE", "D18A33"), alpha=0.05))
 
-# contrast D22_A28vsBASE
-
+# contrast D22_A33vsBASE
 res_D22_BASEvsA33 <- as.data.frame(results(dds, contrast=c("group", "D22BASE", "D22A33"), alpha=0.05))
 
 # merge dataframes
-res_df33 <- merge(rres_D18_BASEvsA33, res_D22_BASEvsA33, by="row.names", suffixes=c(".18", ".22"))
-View(res_df28)
-rownames(res_df28) <- res_df28$Row.names
-res_df28 <- res_df28[,-1]
+res_df33 <- merge(res_D18_BASEvsA33, res_D22_BASEvsA33, by="row.names", suffixes=c(".18", ".22"))
+View(res_df33)
+rownames(res_df33) <- res_df33$Row.names
+res_df33 <- res_df33[,-1]
 
-library(dplyr)
-library(tidyr)
-# make col collumn that will col based on values in data fram 
 
 # Define color mapping logic with the mutate fuction 
-res_df28 <- res_df28 %>%
+res_df33 <- res_df33 %>%
   mutate(fill = case_when(
     padj.18 < 0.05 & stat.18 < 0 ~ "turquoise2",
     padj.18 < 0.05 & stat.18 > 0 ~ "magenta3",
@@ -167,14 +176,67 @@ res_df28 <- res_df28 %>%
     padj.22 < 0.05 & stat.22 > 0 ~ "tomato",
   ))
 
+# count the number of color points per fill color 
+color_counts <- res_df33 %>%
+  group_by(fill) %>%
+  summarise(count=n())
+
+label_positions <- data.frame(
+  fill=c("blue", "magenta3", "tomato", "turquoise2"),
+  x_pos = c(1, 5, 0, -7.5),
+  y_pos = c(-5, 0, 9, 3)
+)
+
+label_data <- merge(color_counts, label_positions, by = "fill")
+
 # PLOT
-ggplot(res_df28, aes(x=log2FoldChange.18, y=log2FoldChange.22, color=fill)) +
+plot33 <- ggplot(res_df33, aes(x=log2FoldChange.18, y=log2FoldChange.22, color=fill)) +
   geom_point(alpha=0.8) +
   scale_color_identity() +
-  labs(x="Log2FoldChange 28 vs. BASE at 18",
-       y="log2FoldChange 28 vs. BASE at 22",
-       title = "How does response to 28 C vary by DevTemp?")+
+  geom_text(data = label_data, aes(x=x_pos, y=y_pos, label=count, color=fill),   ##
+            size=5) + 
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +  ##
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey") +
+  xlim(-10,10) + ylim(-10,10) +
+  labs(x="Log2FoldChange 33 vs. BASE at 18",
+       y="log2FoldChange 33 vs. BASE at 22",
+       title = "How does response to 33 C vary by DevTemp?")+
   theme_minimal()
+
+plot33
+
+#put the two plots together in a two panel plot 
+
+combined_plot <- grid.arrange(plot28,plot33, ncol = 2)
+ggsave("~/projects/eco_genomics/transcriptomics/figures/combined_scatter_plot.png", combined_plot, width = 12, height = 6)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

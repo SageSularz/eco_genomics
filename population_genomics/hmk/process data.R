@@ -62,10 +62,10 @@ for (i in 1:3) {
             ylab="Fst among regions",
             suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
 
-  write.csv(vcf.div.MHplot, 
-            file = paste0("~/projects/eco_genomics/population_genomics/hmk/Genetic_Diff_byRegion_",filter_val,".csv"),
-            quote=F,
-            row.names=F)
+  #write.csv(vcf.div.MHplot, 
+  #          file = paste0("~/projects/eco_genomics/population_genomics/hmk/Genetic_Diff_byRegion_",filter_val,".csv"),
+  #          quote=F,
+  #          row.names=F)
 
   names(vcf.div.MHplot)
 
@@ -81,8 +81,8 @@ for (i in 1:3) {
         x="Gene Diversity within Regions", y="Counts of SNPs")
 
   #save the last plot you made
-  ggsave(file=paste0("Histogram_GenomeDiversity_byRegion_", filter_val, ".pdf"),
-         path="~/projects/eco_genomics/population_genomics/hmk/")
+  #ggsave(file=paste0("Histogram_GenomeDiversity_byRegion_", filter_val, ".pdf"),
+  #       path="~/projects/eco_genomics/population_genomics/hmk/")
   
   #what does playing with the filter mean in words (what are results) #######
   diversity_summary <- vcf.div.MHplot %>%
@@ -90,13 +90,13 @@ for (i in 1:3) {
     pivot_longer(c(4:9)) %>%
     group_by(name) %>%
     filter(value!=0 & value<0.25) %>% #take out the zero values changes sample size and tidy it up a bit 
-    summarise(avg_Hs=mean(value), StdDev_Hs=sd(value), N_Hs=n())
+    summarise(avg_Hs=mean(value), StdDev_Hs=sd(value), N_Hs=n(),Hs_zero = sum(value == 0), Hs_greater_than_zero = sum(value > 0))
   
   write.csv(diversity_summary, 
             file = paste0("~/projects/eco_genomics/population_genomics/hmk/Diversity_Summary_", filter_val, ".csv"),
             row.names = FALSE)
   print("Diversity Loop")
-
+}
   ######## PCA #########
   print("Starting PCA")
 

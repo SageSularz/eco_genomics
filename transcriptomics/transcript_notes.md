@@ -69,3 +69,64 @@ looking at the result names and compared developmental temps
 notes:
 
 Qs:
+
+### 10-21-24
+
+Notes:
+
+Plots review:
+
+1.  Bar plot of number of reads per sample
+    -   to visualize the sucess and variation of sequencing effort
+2.  PCA
+    -   visualize the variation among groups
+3.  MA plot
+    -   x = average counts y = LogFoldChange
+
+    -   difference in expression between two groups
+
+    -   and how that difference related to how highly expressed that gene is
+
+    -   positive vals upreg in 22 aka down in 18
+
+    -   negative val upreg in 18 aka down in 22
+4.  Point plot of a differentially expressed gene
+    -   d
+5.  Volcano plot
+    -   
+6.  Euler plot
+    -   shared vs unique genes among different contrasts
+7.  Heat map
+    -   see by color and saturation diff among genes or matrix of data (ex. correl. WGCNA)
+
+    -   we can visualize almost any matrix of information
+8.  Scatterplots
+    -   can be colored by contrast and significance
+
+### 10-24-24
+
+Plan for the day:
+
+1.  Review plots
+2.  Finish scatter plot
+3.  WGCNA (fill in steps form notes) (GOT HERE TODAY)
+4.  Two ways to approach gene ontology (GO) enrichment analysis
+5.  Make files to prepare for GO analysis
+
+Notes:
+
+-   LFC \>\> pos val = pos test stat
+
+-   wrapped up "03_Contrasts" started "04_WGCNA"
+
+-   cluster dendrogram plot
+
+-   selecting a power...
+
+    -   plot will help you select the best biological threshhold
+
+-   next week we can idetify the moduals then test for corilation
+
+Q's:
+
+-   grid.arrange funct.\>\> play with this more, how to rotate? arrange in different ways?
