@@ -77,10 +77,15 @@ Notes:
 Plots review:
 
 1.  Bar plot of number of reads per sample
+
     -   to visualize the sucess and variation of sequencing effort
+
 2.  PCA
+
     -   visualize the variation among groups
+
 3.  MA plot
+
     -   x = average counts y = LogFoldChange
 
     -   difference in expression between two groups
@@ -90,17 +95,23 @@ Plots review:
     -   positive vals upreg in 22 aka down in 18
 
     -   negative val upreg in 18 aka down in 22
+
 4.  Point plot of a differentially expressed gene
-    -   d
+
 5.  Volcano plot
-    -   
+
 6.  Euler plot
+
     -   shared vs unique genes among different contrasts
+
 7.  Heat map
+
     -   see by color and saturation diff among genes or matrix of data (ex. correl. WGCNA)
 
     -   we can visualize almost any matrix of information
+
 8.  Scatterplots
+
     -   can be colored by contrast and significance
 
 ### 10-24-24
@@ -130,3 +141,13 @@ Notes:
 Q's:
 
 -   grid.arrange funct.\>\> play with this more, how to rotate? arrange in different ways?
+
+### 10-29-24
+
+*Finishing up WGCNA*
+
+Notes:
+
+-   pick power that has more bio topograph without getting too low on conectivity
+
+Qs:

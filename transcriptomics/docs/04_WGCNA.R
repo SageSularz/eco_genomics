@@ -116,7 +116,7 @@ a1 <- ggplot(sft.data, aes(Power, SFT.R.sq, label = Power)) +
   geom_hline(yintercept = 0.8, color = 'tomato') +
   labs(x= "Power", y= "Scale free topology model fit, signed R^2" ) +
   theme_classic()
-
+a1
 
 a2 <- ggplot(sft.data, aes(Power, mean.k., label = Power)) +
   geom_point() +
@@ -126,6 +126,88 @@ a2 <- ggplot(sft.data, aes(Power, mean.k., label = Power)) +
   theme_classic()
 
 grid.arrange(a1, a2, nrow = 2)
+
+
+soft_power <- 26
+temp_cor <- cor
+cor <- WGCNA::cor  # this sets the temp_cor
+
+norm.counts[] <- sapply(norm.counts, as.numeric)
+
+# The command below creates the network and identifies modules based on the 
+# perameters that we chose
+bwnet26 <- blockwiseModules(norm.counts,
+                            maxBlockSize = 300000,
+                            TOMType = "signed",
+                            power = soft_power, 
+                            mergeCutHeight = 0.25,
+                            numericLabels = FALSE,
+                            randomSeed = 1234,
+                            verbose = 3)
+
+
+cor <- temp_cor # resets the temp_cor func to base R's cor func. instead of using WCGNA's 
+
+# Step 5: explore Module 
+
+module_eigengenes <- bwnet26$MEs
+
+head(module_eigengenes)
+dim(module_eigengenes)
+
+#get the number of genes for each module
+table(bwnet26$colors)
+
+# Plot the dendrogram and module colors 
+plotDendroAndColors(bwnet26$dendrograms[[1]], cbind(bwnet26$unmergedColors, bwnet26$colors),
+                    c("unmerged", "merged"),
+                    addGuide = TRUE,
+                    hang = 0.03, 
+                    guideHang = 0.05)
+
+saveRDS(bwent26, file = "outputs/bwnet26.rds")
+
+# To load the bwent file in later use:
+#bwent26 <- readRDS("outputs/bwent26.rds") 
+
+# Step 6: Correlations of modules with traits 
+
+#define the numbers of genes and sample 
+nSamples <- nrow(norm.counts)
+nGenes <- ncol(norm.counts)
+
+# Test for correlation between module eigengenes and trait data
+module.trait.corr <- cor(module_eigengenes, traitData, use = 'p')
+
+# calculate pval for each correlation 
+module.trait.corr.pvals <- corPvalueStudent(module.trait.corr, Nsamples)
+
+# Visualize module-trait association as a heat map
+heatmap.data <- merge(module_eigengenes, traitData, by ='row.names')
+head(heatmap.data)
+
+# adress error of row.names not being numeric 
+heatmap.data <- heatmap.data %>%
+  column_to_rownames(var = 'Row.names')
+
+names(heatmap.data)
+
+# Make pretty heatmap of correlations 
+CorLevelPlot(heatmap.data, 
+             x = names(heatmap.data)[42:44],  # these vals will change based on 
+             y = names(heatmap.data)[1:41],   # number of eigengenes
+             col = c("blue2", "skyblue", "beige", "pink", "tomato"))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
