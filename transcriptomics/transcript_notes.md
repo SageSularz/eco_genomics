@@ -151,3 +151,11 @@ Notes:
 -   pick power that has more bio topograph without getting too low on conectivity
 
 Qs:
+
+### HOMEWORK
+
+Question \# 2:
+
+*How does the soft-power threshold selected affect module formation (number, size, strength of correlations, association with traits)? To address this question, choose 2 or 3 power thresholds, compare the number of modules, number of genes per module, the strength of correlations with traits.*
+
+Script: SularzS_EG_AsstNo2.R \<- 04_WGCNA.R
