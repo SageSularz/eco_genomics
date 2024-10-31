@@ -137,7 +137,7 @@ norm.counts[] <- sapply(norm.counts, as.numeric)
 # The command below creates the network and identifies modules based on the 
 # perameters that we chose
 bwnet26 <- blockwiseModules(norm.counts,
-                            maxBlockSize = 300000,
+                            maxBlockSize = 30000,
                             TOMType = "signed",
                             power = soft_power, 
                             mergeCutHeight = 0.25,
