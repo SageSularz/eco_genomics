@@ -19,7 +19,7 @@ setwd("~/projects/eco_genomics/transcriptomics/")
 
 ##########################################################################
 
-## STEP 1: import data
+## STEP 1: Import data ##
 countsTable <- read.table("/gpfs1/cl/pbio3990/Transcriptomics/tonsa_counts.txt",
                           header = TRUE, row.names = 1)
 
@@ -32,15 +32,13 @@ head(conds)
 
 traitData = read.table("/gpfs1/cl/pbio3990/Trait_Data.txt", header = T, row.names = 1)
 
-# Filter the matrix to just BASE data bc those are the data for which we have traits measured
 filtered_count_matrix_BASEonly <- countsTable[, conds$FinalTemp == "BASE"]
 filtered_sample_metadata_BASEonly <- conds[conds$FinalTemp == "BASE", ]
 rounded_filtered_count_matrix <- round(filtered_count_matrix_BASEonly)
 
 
-## STEP 2: Detecting outliers 
+## STEP 2: Detecting outliers ##
 
-#detect outlier genes
 gsg <- goodSamplesGenes(t(rounded_filtered_count_matrix))
 summary(gsg)
 
@@ -52,7 +50,6 @@ table(gsg$goodSamples)
 #TRUE 
 #7 
 
-# FIlter out bad genes 
 data_WGCNA <- rounded_filtered_count_matrix[gsg$goodGenes == TRUE,]
 dim(data_WGCNA) #good job :))
 
@@ -76,7 +73,7 @@ ggplot(pca_data, aes(PC1, PC2))+
        y = paste0('PC2: ', pca.var.percent[2]))
 
 
-## STEP 3 - Normalization 
+## STEP 3 - Normalization ##
 
 colData <- row.names(filtered_sample_metadata_BASEonly)
 
@@ -95,12 +92,12 @@ dds_norm <- vst(dds_WGCNA_75) #perform Variance stableization
 norm.counts <- assay(dds_norm) %>% 
   t()
 
-### STEP 4: Network construction 
+## STEP 4: Network construction ##
 
 # Choose a set of soft-threshholding powers
 power <- c(c(1:10), seq(from = 12, to = 50, by = 2))
 
-# call the network topology analysis function (takes a couple min to run)
+# call the network topology analysis function 
 sft <- pickSoftThreshold(norm.counts,
                          powerVector = power,
                          networkType = "signed", #to focus on transcripts that are positively corrilated with 
@@ -128,20 +125,20 @@ a2 <- ggplot(sft.data, aes(Power, mean.k., label = Power)) +
 grid.arrange(a1, a2, nrow = 2)
 
 ###################################################
-power_vals <- c(12, 24, 28)
 
-for (i in 1:3) {
-  soft_power <- power_vals[i]
-  print("start script")
-
+## Using power thresholds of 26 and 14 compare...
+     # the number of modules
+     # number of genes per module
+     # the strength of correlations with traits.
+ 
+soft_power <- 14
 temp_cor <- cor
-cor <- WGCNA::cor  # this sets the temp_cor
+cor <- WGCNA::cor  
 
 norm.counts[] <- sapply(norm.counts, as.numeric)
 
-# The command below creates the network and identifies modules based on the 
-# perameters that we chose
-bwnet26 <- blockwiseModules(norm.counts,
+# creates the network and identifies modules based on the perameters (14 vs 26) that I chose
+bwnet14 <- blockwiseModules(norm.counts,
                             maxBlockSize = 30000,
                             TOMType = "signed",
                             power = soft_power, 
@@ -153,31 +150,31 @@ bwnet26 <- blockwiseModules(norm.counts,
 
 cor <- temp_cor # resets the temp_cor func to base R's cor func. instead of using WCGNA's 
 
-# Step 5: explore Module 
+## Step 5: Explore Module ##
 
-module_eigengenes <- bwnet26$MEs
+module_eigengenes <- bwnet14$MEs
 
 head(module_eigengenes)
-dim(module_eigengenes)
+dim(module_eigengenes) # Number of Modules
 
 #get the number of genes for each module
-table(bwnet26$colors)
+table(bwnet14$colors)
 
 # Plot the dendrogram and module colors 
-plotDendroAndColors(bwnet26$dendrograms[[1]], cbind(bwnet26$unmergedColors, bwnet26$colors),
+plotDendroAndColors(bwnet14$dendrograms[[1]], cbind(bwnet14$unmergedColors, bwnet14$colors),
                     c("unmerged", "merged"),
                     addGuide = TRUE,
                     hang = 0.03, 
                     guideHang = 0.05)
 
-saveRDS(bwent26, file = "outputs/bwnet26.rds")
+saveRDS(bwnet14, file = "hmk/bwnet14.rds")
 
 # To load the bwent file in later use:
 #bwent26 <- readRDS("outputs/bwent26.rds") 
 
-# Step 6: Correlations of modules with traits 
+## Step 6: Correlations of modules with traits ##
 
-#define the numbers of genes and sample 
+#define the numbers of genes and samples 
 nSamples <- nrow(norm.counts)
 nGenes <- ncol(norm.counts)
 
@@ -185,7 +182,7 @@ nGenes <- ncol(norm.counts)
 module.trait.corr <- cor(module_eigengenes, traitData, use = 'p')
 
 # calculate pval for each correlation 
-module.trait.corr.pvals <- corPvalueStudent(module.trait.corr, Nsamples)
+module.trait.corr.pvals <- corPvalueStudent(module.trait.corr, nSamples)
 
 # Visualize module-trait association as a heat map
 heatmap.data <- merge(module_eigengenes, traitData, by ='row.names')
