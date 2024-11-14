@@ -5,6 +5,7 @@
 11/12/24 -- First Workshop Day
 - Chanchal + Aly were able to get the bam files uploaded to the shared directory
 - used spack load samtools and spack load bcftools to start getting rid of upmapped data 
+    - samtools view -b -F 4 to remove the unmapped reads 
 
 
 Sage's Github: <https://github.com/SageSularz/eco_genomics/tree/Sea-Star-Wasting-Disease>
