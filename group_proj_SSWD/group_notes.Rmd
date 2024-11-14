@@ -27,4 +27,3 @@ Editing folder permissions: chmod 777 folder name
 Seperating maped and unmapped: samtools view -b -F 4 D_E4_mapped_and_unmapped.bam \> D_E4_mapped_only.bam
 
 **Data**
-
