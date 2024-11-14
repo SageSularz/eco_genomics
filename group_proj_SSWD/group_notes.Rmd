@@ -1,0 +1,30 @@
+### SSWD Notes
+
+:)
+
+Sage's Github: <https://github.com/SageSularz/eco_genomics/tree/Sea-Star-Wasting-Disease>
+
+**Study Questions:**
+
+Is gene flow occurring between the naive and exposed sites?
+
+What is the relationship between nucleotide diversity and SSWD susceptibility?
+
+### 11-12-24
+
+Organizing files so they are accessible to all group members
+
+created new directory under class dir.
+
+**New path:** /gpfs1/cl/pbio3990/GroupProjects/SSW/data
+
+load bcftools and samtools on command line
+
+**Shell code**
+
+Editing folder permissions: chmod 777 folder name
+
+Seperating maped and unmapped: samtools view -b -F 4 D_E4_mapped_and_unmapped.bam \> D_E4_mapped_only.bam
+
+**Data**
+
